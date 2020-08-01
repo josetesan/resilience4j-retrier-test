@@ -13,10 +13,10 @@ public class Services {
 
     public  Integer  returnValue() throws InterruptedException, IOException {
 
-        Double wait = new Random().nextDouble() * 100d;
-        LOGGER.info("going to wait {}", wait.intValue());
-        if (wait.intValue()% 2 == 0) throw new IOException("Wait is odd");
-        TimeUnit.MILLISECONDS.sleep(wait.longValue());
+        long wait = new Random().nextInt(5000) ;
+        LOGGER.info("going to wait {} ms", Math.abs(wait));
+        if ((int) wait % 2 == 0) throw new IOException("Wait is odd");
+        TimeUnit.MILLISECONDS.sleep(Math.abs(wait));
         return 4;
 
     }

@@ -1,11 +1,10 @@
 package es.josetesan.poc.retrier4j;
 
 import es.josetesan.poc.retrier4j.services.Services;
-import io.github.resilience4j.retry.IntervalFunction;
+import io.github.resilience4j.core.IntervalFunction;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
 import io.github.resilience4j.retry.RetryRegistry;
-import io.vavr.CheckedFunction0;
 import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +25,7 @@ public class Main {
             .ofExponentialBackoff(IntervalFunction.DEFAULT_INITIAL_INTERVAL, 2d);
 
         RetryConfig config = RetryConfig.custom()
-            .maxAttempts(3)
+            .maxAttempts(5)
             .intervalFunction(intervalWithCustomExponentialBackoff)
             .retryExceptions(IOException.class)
             .build();
@@ -39,7 +38,10 @@ public class Main {
             .decorateCheckedSupplier(retryWithDefaultConfig, services::returnValue);
 
         var result = Try.of(retryableSupplier)
-             .recover(throwable -> -5)
+             .recover(throwable -> {
+                 LOGGER.error(throwable.getMessage());
+                 return -5;
+             })
             .onFailure(throwable -> {
                 LOGGER.error("Exiting !!");
                 System.exit(-1);

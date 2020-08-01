@@ -14,7 +14,7 @@
     <dependency>
       <groupId>io.github.resilience4j</groupId>
       <artifactId>resilience4j-retry</artifactId>
-      <version>1.0.0</version>
+      <version>1.5.0</version>
       <scope>compile</scope>
     </dependency>
 
@@ -22,7 +22,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.7.28</version>
+      <version>1.7.30</version>
     </dependency>
   </dependencies>
 
